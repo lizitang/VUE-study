@@ -96,5 +96,80 @@ npm run build 生成上线目录(部署)
 >
 
 ### vue-router
+### 引入的方式
+1. 首先看package.json里有没有vue-router，如果没有  
+	npm install vue-router --save
+2. 在入口文件main.js里引入vue-router
+
+	```
+	import VRouter from 'vue-router'//引入  
+	import Apple from './components/Apple'
+	import Banana from './components/Banana'' 
+	Vue.use(VRouter)//使用
+	let router = new VRouter({
+		mode: 'history',
+		routes: [
+			{
+				path: '/Apple',
+				component: Apple
+			},
+			{
+				path: '/Banana',
+				component: Banana
+			}
+		]
+	}) //实例化
+	new Vue({
+	  el: '#app',
+	  router,
+	  template: '<App/>',
+	  components: { App }
+	})
+	```
+
+### router-link
+router-link组件支持用户在具有路由功能的应用中，通过to属性指定目标地址，默认渲染成带有正确链接的a标签，可以通过配置tag属性生成别的标签。
+
+```
+<!-- 字符串 -->
+<router-link to="home">Home</router-link>
+<!-- 渲染结果 -->
+<a href="home">Home</a>
+
+<!-- 使用 v-bind 的 JS 表达式 -->
+<router-link v-bind:to="'home'">Home</router-link>
+
+<!-- 不写 v-bind 也可以，就像绑定别的属性一样 -->
+<router-link :to="'home'">Home</router-link>
+
+<!-- 同上 -->
+<router-link :to="{ path: 'home' }">Home</router-link>
+
+<!-- 命名的路由 -->
+<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+
+<!-- 带查询参数，下面的结果为 /register?plan=private -->
+<router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
+```
+[具体的用法点击此链接](https://router.vuejs.org/zh-cn/api/router-link.html)
+### 路由带参数
+
+```
+let router = new VRouter({
+	mode: 'history',
+	routes: [
+		{
+			path: '/Apple/:color',
+			component: Apple
+		},
+		{
+			path: '/Banana',
+			component: Banana
+		}
+	]
+});
+```
+在routes的path里加上:参数，在对应的组件里可以通过this.$route.params获取到路由的参数
+
 
 
