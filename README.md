@@ -171,5 +171,73 @@ let router = new VRouter({
 ```
 在routes的path里加上:参数，在对应的组件里可以通过this.$route.params获取到路由的参数
 
+## vue-resource
+
+在main.js里
+
+```
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+```
+
+在子组件里
+
+```
+GET请求
+this.$http.get('getList').then(function (data) {
+	console.log(data);
+}, function (err) {
+	console.log(err);
+});
+POST请求
+this.$http.post('getList', {data: 1}).then(function (data) {
+	console.log(data);
+}, function (err) {
+	console.log(err);
+});
+```
+
+## 商城项目练习
+###注意事项
+1. 在子组件里的css样式用style标签时，使用scope，这样子组件里的样式设置不会影响父组件
+	
+	```
+	<style scoped>
+	</style>
+	```
+2. 搭建测试环境 json-server （缺点只能通过get方式获取请求）
+
+	```
+	npm install json-server --save
+	```
+	在bulid文件夹下的dev-server.js里添加代码
+	
+	```
+	var jsonServer = require('json-server');
+	var apiServer = jsonServer.create();
+	var apiRouter = jsonServer.router('db.json');
+	var middlewares = jsonServer.defaults();
+	apiServer.use(middlewares);
+	apiServer.use('/api',apiRouter);
+	apiServer.listen(port+1, function (err) {
+	  if (err) {
+	    console.log(err);
+	    return 
+	  }
+	  console.log('Listening at http://localhost:' + (port+1));
+	});
+	```
+	在config文件夹的index.js里添加proxyTable里异步请求的路径
+	![](imgs/01.jpeg)
+3. 注意当端口号之前被占用了 想要取消的话
+
+	```
+	lsof -i:端口号
+	kill -9 端口id
+	```
+
+4. 在js里给子组件传参数时，要是引入图片之类的静态资源，要用require(这里webpack规则)
+
+
 
 
