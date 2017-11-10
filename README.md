@@ -197,6 +197,26 @@ this.$http.post('getList', {data: 1}).then(function (data) {
 });
 ```
 
+## VUE transition
+### Props
+1. name 字符串型 用于自动生成css过渡类名,假设起名字加name="fade"，自动拓展为.fade-enter,.fase-enter-active等，默认name为v
+2. appear 布尔型，是否在初始渲染时使用过渡，默认为false
+3. css 布尔型  是否使用css过渡类，默认为true，如果设置为false，将只能通过组件事件触发注册的javascript钩子
+4. type 字符串型，过渡事件类型,transition或者animation
+5. mode 字符串型  控制离开/进入的过渡时间序列,'out-in'和'in-out'
+
+### 过渡的类名
+在进入/离开的过渡中，有6个class切换
+
+1. v-enter: 进入过渡的开始状态，在元素被插入时生效
+2. v-enter-active: 定义过渡的状态，元素被插入时生效，在transition/animation完成之后移除
+3. v-enter-to: 定义过渡结束的状态
+4. v-leave: 离开过渡的开始状态，离开过渡被触发的时生效
+5. v-leave-active: 离开过渡被触发后生效，在transition/animation完成之后移除
+6. v-leave-to:离开过渡的结束状态
+
+![过渡事件](imgs/transition.jpeg)
+
 ## 商城项目练习
 ###注意事项
 1. 在子组件里的css样式用style标签时，使用scope，这样子组件里的样式设置不会影响父组件

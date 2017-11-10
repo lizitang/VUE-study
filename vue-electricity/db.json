@@ -1,0 +1,95 @@
+{
+	"newsList": [
+		{
+			"title": "新闻新闻新闻新闻新闻新闻薪新闻新闻1",
+			"url": "www.baidu.com"
+		},
+		{
+			"title": "新闻新闻新闻2",
+			"url": "www.baidu.com"
+		},
+		{
+			"title": "新闻新闻新闻3",
+			"url": "www.baidu.com",
+			"hot": true
+		},
+		{
+			"title": "新闻新闻新闻4",
+			"url": "www.baidu.com"
+		},
+		{
+			"title": "新闻新闻新闻5",
+			"url": "www.baidu.com"
+		}
+	],
+	"productList": {
+		"pc": {
+			"title": "PC产品",
+			"list": [
+				{
+					"title": "数据统计",
+					"url": "www.baidu.com"
+				},
+				{
+					"title": "数据预测",
+					"url": "www.baidu.com"
+				},
+				{
+					"title": "流量分析",
+					"url": "www.baidu.com",
+					"hot": true
+				},
+				{
+					"title": "广告分布",
+					"url": "www.baidu.com"
+				}
+
+			]
+		},
+		"app": {
+			"title": "手机应用类",
+			"last": true,
+			"list": [
+				{
+					"title": "91助手",
+					"url": "www.baidu.com"
+				},
+				{
+					"title": "产品助手",
+					"url": "www.baidu.com"
+				},
+				{
+					"title": "智能地图",
+					"url": "www.baidu.com",
+					"hot": true
+				},
+				{
+					"title": "团队语音",
+					"url": "www.baidu.com"
+				}
+			]
+		}
+	},
+	"boardList": [
+		{
+			"title": "开放产品",
+			"id": 0,
+			"desc": "开放产品是一款开放产品"
+		},
+		{
+			"title": "开放产品",
+			"id": 1,
+			"desc": "开放产品是一款开放产品"
+		},
+		{
+			"title": "使命必达",
+			"id": 2,
+			"desc": "使命必达快速迭代永远保持最前端的速度"
+		},
+		{
+			"title": "勇攀高峰",
+			"id": 3,
+			"desc": "帮你勇闯高峰，到达事业的顶峰"
+		}
+	]
+}
