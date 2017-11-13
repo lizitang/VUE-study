@@ -171,6 +171,7 @@ let router = new VRouter({
 ```
 在routes的path里加上:参数，在对应的组件里可以通过this.$route.params获取到路由的参数
 
+
 ## vue-resource
 
 在main.js里
@@ -257,6 +258,142 @@ this.$http.post('getList', {data: 1}).then(function (data) {
 	```
 
 4. 在js里给子组件传参数时，要是引入图片之类的静态资源，要用require(这里webpack规则)
+5. 使用vue实现选项卡
+	- 样式: 向下箭头
+		利用border属性可以实现：
+		
+		```
+		border-top: 5px solid #e3e3e3;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-bottom: 5px solid transparent;
+		```
+		设置其中三个方向的颜色设为transparent
+	- 父子组件之间传值
+	
+		- 父组件传给子组件
+		
+			> 父组件通过属性传给子组件 :属性
+			
+			> ```
+			<v-selection :selection="productType" @on-change=""></v-selection>
+			```
+			> 子组件接收 使用props
+			
+			> ```
+				props: {
+					selection: {
+						type: Array,
+						default: [{
+							label: 'test',
+							value: 0
+						}]
+					}
+				}
+			> ```
+		
+		- 子组件传给父组件
+		
+			> ```
+			>this.$emit('on-change', this.nowIndex);
+			>```
+			
+	- 实现功能说明：
+		- 点击可见区域的span,底下的ul展示
+		- 点击ul底下的li，可见区域的内容变成li的内容
+		- 子组件将选中的index传给父组件
+	- 代码
+	
+	 ```
+	<div class="selection-show" @click="toggle">
+		<span>{{ selection[nowIndex].label }}</span>
+		<div class="arrow"></div>
+	</div>
+	<div class="selection-list" v-if="isDrop">
+		<ul>
+			<li v-for="(item, index) in selection" @click="chooseSeclection(index)">{{ item.label }}</li>
+		</ul>
+	</div>
+	<script>
+		export default {
+			props: {
+				selection: {
+					type: Array,
+					default: [{
+						label: 'test',
+						value: 0
+					}]
+				}
+			},
+			data () {
+				return {
+					isDrop: false,
+					nowIndex: 0
+				}
+			},
+			methods: {
+				toggle () {
+					this.isDrop = !this.isDrop;
+				},
+				chooseSeclection (index) {
+					this.nowIndex = index;
+					this.isDrop = false;
+					this.$emit('on-change', this.nowIndex);
+				}
+			}
+		}
+	</script>
+	```
+6. 使用vue实现路由跳转
+	
+	```
+	import Vue from 'vue'
+	import Layout from './components/layout'
+	import VueRouter from 'vue-router'
+	import VueResource from 'vue-resource'
+	import IndexPage from './pages/index'
+	import DetailPage from './pages/detail'
+	import CountPage from './pages/detail/count'
+	import ForecastPage from './pages/detail/forecast'
+	import AnalysisPage from './pages/detail/analysis'
+	import PublishPage from './pages/detail/publish'
+	
+	Vue.use(VueRouter)
+	Vue.use(VueResource)
+	let router = new VueRouter({
+		mode: 'history',
+		routes: [
+			{
+				path: '/',
+				component: IndexPage
+			},
+			{
+				path: '/detail',
+				component: DetailPage,
+				redirect: '/detail/analysis',
+				children: [
+					{
+						path: 'count',
+						component: CountPage
+					},
+					{
+						path: 'forecast',
+						component: ForecastPage
+					},
+					{
+						path: 'analysis',
+						component: AnalysisPage
+					},
+					{
+						path: 'publish',
+						component: PublishPage
+					}
+				]
+			}
+		]
+	})
+	```
+这里注意的就是 children孩子结点的path直接使用count,不能使用'/count',/会直接找到根路径目录
 
 
 
