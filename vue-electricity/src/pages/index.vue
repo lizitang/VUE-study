@@ -72,7 +72,7 @@
 					{
 						src: require('../assets/images/pic3.jpg'),
 						title: 'xxx3',
-						href: 'http://xxx.xxx.com'
+						href: 'detail/publish'
 					},
 					{
 						src: require('../assets/images/pic4.jpg'),
@@ -86,20 +86,20 @@
 						list: [
 							{
 								title: '数据统计',
-								url: 'www.baidu.com'
+								url: 'detail/count'
 							},
 							{
 								title: '数据预测',
-								url: 'www.baidu.com'
+								url: 'detail/forecast'
 							},
 							{
 								title: '流量分析',
-								url: 'www.baidu.com',
+								url: 'detail/analysis',
 								hot: true
 							},
 							{
 								title: '广告分布',
-								url: 'www.baidu.com'
+								url: 'detail/publish'
 							}
 
 						]

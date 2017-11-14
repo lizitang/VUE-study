@@ -4,13 +4,18 @@
 			<div class="content-container">
 				<div class="app-header-inner">
 					<a href="" class="app-logo">
-						<img src="../assets/logo.png" alt="">
+						<router-link :to="{path: '/'}">
+							<img src="../assets/logo.png" alt="">
+						</router-link>
+						
 					</a>
 					<div class="header-nav">
 						<ul class="nav-list">
-							<li><a href="">登录</a></li>
-							<li><a href="">注册</a></li>
-							<li><a href="">关于</a></li>
+							<li><a href="">{{ name }}</a></li>
+							<li @click="loginClick" v-if="name === ''"><a href="javascript:;">登录</a></li>
+							<li @click="registClick" v-if="name === ''"><a href="javascript:;">注册</a></li>
+							<li @click="aboutClick"><a href="javascript:;">关于</a></li>
+							<li v-if="name !== ''" @click="quit"><a href="">退出</a></li>
 						</ul>
 					</div>
 				</div>
@@ -26,12 +31,54 @@
 				<p>@ 2017 zhangyan</p>
 			</div>
 		</div>
+		<my-dialog :is-show="isShowAboutDialog" @on-close="closeDialog('isShowAboutDialog')">
+			<p>other hello</p>
+		</my-dialog>
+		<my-dialog :is-show="isShowLoginDialog" @on-close="closeDialog('isShowLoginDialog')">
+			<login-form @has-login="onSuccessLogin"></login-form>
+		</my-dialog>
+		<my-dialog :is-show="isShowRegistDialog" @on-close="closeDialog('isShowRegistDialog')">
+			<regist-form></regist-form>
+		</my-dialog>
 	</div>
 </template>
 <script>
+	import Dialog from './dialog'
+	import LoginForm from './loginForm'
+	import RegistForm from './registForm'
 	export default {
+		components: {
+			myDialog: Dialog,
+			loginForm: LoginForm,
+			registForm: RegistForm
+		},
 		data () {
-
+			return {
+				isShowAboutDialog: false,
+				isShowLoginDialog: false,
+				isShowRegistDialog: false,
+				name: ''
+			}
+		},
+		methods: {
+			aboutClick () {
+				this.isShowAboutDialog = true;
+			},
+			loginClick () {
+				this.isShowLoginDialog = true;
+			},
+			registClick () {
+				this.isShowRegistDialog = true;
+			},
+			closeDialog (attr) {
+				this[attr] = false;
+			},
+			onSuccessLogin (data) {
+				this.name = data.name;
+				this.closeDialog('isShowLoginDialog');
+			},
+			quit () {
+			}
 		}
 	}
 </script>
