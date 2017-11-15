@@ -217,6 +217,50 @@ this.$http.post('getList', {data: 1}).then(function (data) {
 6. v-leave-to:离开过渡的结束状态
 
 ![过渡事件](imgs/transition.jpeg)
+## VUEX
+### 安装
+进入文件目录  cnpm install vuex --save
+### 使用
+1. src文件夹里添加store文件夹,这个文件的结构是
+	![](imgs/vuex01.jpeg)
+	
+	index.js里面的内容是：
+	
+	```
+	import Vuex from 'vuex'
+	import Vue from 'vue'
+	import orderList from './modules/orderList'
+	Vue.use(Vuex)
+	export default new Vuex.Store({
+		modules: {
+			orderList
+		}
+	})
+	```
+2. main.js里引入store
+
+	```
+	import Store from './store'
+	new Vue({
+	  el: '#app',
+	  router,
+	  store,
+	  template: '<Layout/>',
+	  components: { Layout }
+	})
+	```
+3. 在页面里，可以通过this.$store获取store这个对象
+![](imgs/vuex03.jpeg)
+
+### vuex的应用场景
+vuex是一个主要应用在中大型单页面应用的数据管理架构，举个例子：有一个父组件，它有两个子组件，如果父组件要向子组件里传递数据可以用props，但是如果这两个子组件之间需要数据共享，子组件向父组件传递数据。这里就需要使用自定义事件，通过this.$emit('my-event', data);将数据传给父组件  
+=>这里有一个问题，就是当这个应用的规模的扩大：
+	- 当一个组件里有子组件，子组件里还有子组件，这样大型复杂的嵌套的组件，追踪是哪个组件触发，谁在监听它就更复杂
+	- 当业务的逻辑遍布各个组件
+	- 显示地分发和监听事件，父组件和子组件强耦合
+	
+### vuex状态说明
+![](imgs/vuex02.jpeg)
 
 ## 商城项目练习
 ###注意事项
@@ -395,6 +439,90 @@ this.$http.post('getList', {data: 1}).then(function (data) {
 	```
 这里注意的就是 children孩子结点的path直接使用count,不能使用'/count',/会直接找到根路径目录
 
+## 音乐app练习
+### 配置
+1. 目录文件：src分成了api,common,components,router,store五个文件夹
+	![](imgs/music01.jpeg)
+	- api放异步数据接口
+	- common 公共静态资源
+	- components 小插件
+	- router 路由
+	- store vuex仓库
+	
+2. 在main.js文件里引入了common里的资源，所以需要在bulid下的webpack.base.conf.js文件里配置一个资源路径
+
+	```
+	 resolve: {
+	    extensions: ['.js', '.vue', '.json'],
+	    alias: {
+	      'src': resolve('src'),
+	      'common': resolve('src/common')
+	    }
+	  },
+	```
+	这个地方需要尤其注意, *使用绝对路径就需要在webpack.base.conf.js里设置*
+	
+3. 移动端安装插件fastclick，这个防止click点击300ms的延时，使用方法是在main.js里引入
+
+	```dash
+	import fastclick from 'fastclick'
+	fastclick.attach(document.body);
+	```
+	
+### router 配置
+1. 在router里的index.js里引入各个组件，配置routes
+
+	```
+	import Vue from 'vue'
+	import Router from 'vue-router'
+	import Recommend from 'components/recommend/recommend'
+	import Singer from 'components/singer/singer'
+	import Rank from 'components/rank/rank'
+	import Search from 'components/search/search'
+	Vue.use(Router)
+	export default new Router({
+	  routes: [
+	  	{
+	  		path: '/',
+	  		redirect: '/recommend'
+	  	},
+	    {
+	    	path: '/recommend',
+	    	component: Recommend
+	    },
+	    {
+	    	path: '/singer',
+	      	component: Singer
+	    },
+	    {
+	    	path: '/rank',
+	      	component: Rank
+	    },
+	    {
+	    	path: '/search',
+	      	component: Search
+	    }
+	  ]
+	})
+	```
+	
+2. 在要使用route路由的vue文件里使用<router-link>
+
+	```
+	<router-link tag="div" class="tab-item" to="/recommend">
+		<span class="tab-link">推荐</span>
+	</router-link>
+	<router-link tag="div" class="tab-item" to="/singer">
+		<span class="tab-link">歌手</span>
+	</router-link>
+	<router-link tag="div" class="tab-item" to="/rank">
+		<span class="tab-link">排行</span>
+	</router-link>
+	<router-link tag="div" class="tab-item" to="/search">
+		<span class="tab-link">搜索</span>
+	</router-link>
+	```
+3. 在App.vue文件，要引入的组件里使用<router-view></router-view>
 
 
 
