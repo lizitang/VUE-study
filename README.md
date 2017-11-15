@@ -524,5 +524,34 @@ vuex是一个主要应用在中大型单页面应用的数据管理架构，举�
 	```
 3. 在App.vue文件，要引入的组件里使用<router-view></router-view>
 
+## jsonp应用
+这里音乐app是抓包qq音乐的异步接口，使用的jsonp的方式。首先npm安装jsonp包
 
+```
+npm install jsonp --save
+```
+在本地封装jsonp方法
 
+```
+export default function jsonp (url, data, option) {
+	url += (url.indexOf('?') < 0 ? '?' : '&') + param(data)
+	return new Promise((resolve, reject) => {
+		originJSONP(url, option, (err, data) => {
+			if (!err) {
+				resolve(data)
+			} else {
+				reject(err)
+			}
+		})
+	})
+}
+
+function param (data) {
+	let url = ''
+	for (var k in data) {
+		let value = data[k] !== undefined ? data[k] : ''
+		url += `&${k}=${encodeURIComponent(value)}`
+	}
+	return url ? url.substring(1) : ''
+}
+```
