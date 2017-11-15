@@ -13,7 +13,11 @@
 <script>
 	import {getRecommend} from 'api/recommend'
 	import {ERR_OK} from 'api/config'
+	import Silder from 'base/slider/slider'
 	export default {
+		component: {
+			Silder
+		},
 		created () {
 			this._getRecommed()
 		},
