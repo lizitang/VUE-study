@@ -2,6 +2,7 @@
 	<div class="recommend">
 		<div class="recommend-content">
 			<div class="slider-wrapper">
+				<my-slider :sliderContent="sliderContent"></my-slider>
 			</div>
 			<div class="recommend-list">
 				<h1 class="list-title">热门歌单推荐</h1>
@@ -13,10 +14,15 @@
 <script>
 	import {getRecommend} from 'api/recommend'
 	import {ERR_OK} from 'api/config'
-	import Silder from 'base/slider/slider'
+	import MySlider from 'base/slider/slider'
 	export default {
-		component: {
-			Silder
+		components: {
+			MySlider
+		},
+		data () {
+			return {
+				sliderContent: []
+			}
 		},
 		created () {
 			this._getRecommed()
@@ -25,7 +31,8 @@
 			_getRecommed () {
 				getRecommend().then((res) => {
 					if (res.code === ERR_OK) {
-						console.log(res.data.slider)
+						console.log(res.data.slider);
+						this.sliderContent = res.data.slider;
 					}
 				})
 			}
