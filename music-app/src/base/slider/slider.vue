@@ -1,109 +1,94 @@
 <template>
-	<div class="slider-content" >
-		<ul class="slider-ul">
-			<li class="slider-li">
-				<transition name="fade-old">
-					<a v-if="isShow" :href="sliderContent[nowIndex].linkUrl" class="slier-link">
-						<img :src="sliderContent[nowIndex].picUrl" alt="">
-					</a>
-				</transition>
-				<transition name="fade">
-					<a v-if="!isShow" :href="sliderContent[nextIndex].linkUrl" class="slier-link">
-						<img :src="sliderContent[nowIndex].picUrl" alt="">
-					</a>
-				</transition>
-
-			</li>
-		</ul>
-		<ul class="click-ul">
-			<li v-for="(item, index) in sliderContent" class="click-li" :class="{selected: index === nowIndex}" @click="selectImg(index)"></li>
-		</ul>
+	<div class="slider" ref="slider">
+		<div class="slider-group" ref="sliderGroup">
+			<slot></slot>
+		</div>
+		<div class="dots"></div>
 	</div>
 </template>
 <script>
+	import BScroll from 'better-scroll'
+	import {addClass} from 'common/js/dom'
 	export default {
 		props: {
-			sliderContent: {
-				type: Array,
-				default: [
-					{
-						id: 0,
-						linkUrl: 'http://y.qq.com/w/album.html?albummid=004VGR270Xu2BZ',
-						picUrl: 'http://y.gtimg.cn/music/common/upload/t_focus_info_iphone/212159.png'
-					},
-					{
-						id: 0,
-						linkUrl: 'http://y.qq.com/w/album.html?albummid=004VGR270Xu2BZ',
-						picUrl: 'http://y.gtimg.cn/music/common/upload/t_focus_info_iphone/212159.png'
-					}
-				]
+			//轮播
+			loop: {
+				type: Boolean,
+				default: true
+			},
+			//自动轮播
+			autoPlay: {
+				type: Boolean,
+				default: true
+			},
+			//定时器时间
+			interval: {
+				type: Number,
+				default: 4000
 			}
 		},
-		data () {
-			return {
-				nowIndex: 0,
-				itv: '',
-				itvTime: 1000,
-				isShow: true
-			}
+		mounted() {
+			setTimeout(() => {
+				this._setSliderWidth();
+				this._initSlider();
+			}, 20)
 		},
-		// mounted () {
-		// 	this.runInterval();
-		// },
 		methods: {
-			selectImg (index) {
-				this.nowIndex = index;
-			},
-			runInterval () {
-				this.itv = setInterval(() => {
-					this.nextIndex();
-				}, this.itvTime)
-			},
-			removeInter () {
-				removeInter(this.itv);
-			}
-		},
-		computed: {
-			nextIndex () {
-				this.nowIndex++;
-				if (this.nowIndex === this.sliderContent.length) {
-					this.nowIndex = 0;
+			_setSliderWidth() {
+				this.children = this.$refs.sliderGroup.children;
+				let width = 0;
+				let sliderWidth = this.$refs.slider.clientWidth;
+				for (let i = 0; i < this.children.length; i++) {
+					let child = this.children[i];
+					addClass(child, 'slider-item');
+					child.style.width = sliderWidth + 'px';
+					width += sliderWidth;
 				}
-				return this.nowIndex;
+				if (this.loop) {
+					width += 2 * sliderWidth
+				}
+				this.$refs.sliderGroup.style.width = width + 'px';
+			},
+			_initSlider() {
+				this.slider = new BScroll(this.$refs.slider, {
+					scrollX: true,
+					scrollY: false,
+					momentum: false,
+					snap: true,
+					snaLoop: this.loop,
+					snapThreshold: 0.3,
+					snapSpeed: 400,
+					click: true
+				})
 			}
 		}
+
 	}
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
 	@import "~common/stylus/variable.styl"
-	.slider-content
-		width 100%
-		height 144px
-		position absolute
-		.slider-ul
-			float left
-			width 100%
-			height 144px
-			position absolute
-			.slider-li
-				width 100%
-				position absolute
-				.slier-link
+	.slider
+		min-height 1px
+		.slider-group
+			position relative
+			overflow hidden
+			white-space nowrap
+			.slider-item
+				float left
+				box-sizing border-box
+				overflow hidden
+				text-align center
+				a
+					display block
+					width 100%
+					overflow hidden
+					text-decoration none
 					img
+						display block
 						width 100%
-		.click-ul
+		.dots
 			position absolute
-			bottom 10px
-			left 50%
-			transform translate(-50%, 0)
-			z-index 1
-			.click-li
-				display inline-block
-				width 5px
-				height 5px
-				border-radius 50%
-				background-color $color-background-d
-				margin-right 5px
-			.selected
-				background-color $color-theme-d
+			right 0
+			left 0
+			bottom 12px
 </style>

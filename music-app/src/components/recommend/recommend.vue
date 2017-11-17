@@ -2,7 +2,13 @@
 	<div class="recommend">
 		<div class="recommend-content">
 			<div class="slider-wrapper">
-				<my-slider :sliderContent="sliderContent"></my-slider>
+				<my-slider>
+					<div v-if="sliderContent.length" v-for="item in sliderContent">
+						<a :href="item.linkUrl">
+							<img :src="item.picUrl" alt="">
+						</a>
+					</div>
+				</my-slider>
 			</div>
 			<div class="recommend-list">
 				<h1 class="list-title">热门歌单推荐</h1>
@@ -31,7 +37,6 @@
 			_getRecommed () {
 				getRecommend().then((res) => {
 					if (res.code === ERR_OK) {
-						console.log(res.data.slider);
 						this.sliderContent = res.data.slider;
 					}
 				})
