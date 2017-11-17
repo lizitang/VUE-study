@@ -1,52 +1,76 @@
 # VUE-study
 ## Vue
-v-text  
-v-html   
-v-bind:属性绑定  v-bind:href="" 缩写 :href="" ，可以绑定class     
-v-on: 事件绑定  v-on:click 缩写 @click    
-条件渲染：  
-v-if:如果不满足，就不会存在在dom节点中  
-v-show：如果不满足条件，依旧在dom节点中，只是display:none   
-v-else 与v-if相反    
-v-model  表单的数据双向绑定  
-v-for 
+- v-text  
+- v-html   
+- v-bind:属性绑定  v-bind:href="" 缩写 :href="" ，可以绑定class     
+- v-on: 事件绑定  v-on:click 缩写 @click    
+- 条件渲染：  
+	- v-if:如果不满足，就不会存在在dom节点中  
+	- v-show：如果不满足条件，依旧在dom节点中，只是display:none   
+	- v-else 与v-if相反    
+- v-model  表单的数据双向绑定  
+- v-for 
 
-```
-<p v-for="(item, index) in list" :class="{odd: index%2}">{{item.name}}-{{item.price}}-{{index}}</p>
-<p v-for="(value, key) in objList">{{key}} - {{value}}</p>
-```
-数组更新:
+	```
+	<p v-for="(item, index) in list" :class="{odd: index%2}">{{item.name}}-{{item.price}}-{{index}}</p>
+	<p v-for="(value, key) in objList">{{key}} - {{value}}</p>
+	```
+- 数组更新:
 
-1. 可以触发视图更新的方法：
-
-	- push()
-	- pop()
-	- shift()
-	- unshift()
-	- splice()
-	- sort()
-	- reverse()
-2. 不能触发视图更新的方法
-	- concat()
-	- slice()
-	- filter()
-	- 直接利用索引更改某一项
-	- 直接修改索引的长度
+	1. 可以触发视图更新的方法：
 	
-针对已经创建的实例，Vue不能直接动态添加根级别的响应式属性，但是可以使用Vue.set(object, key, value)方法向嵌套对象添加响应式属性
-
-```
-Vue.set(this.list, 1, {
-        name: 'orange',
-        price: 16
-      })
-this.list[1] = {
-	name: 'orange',
-	price: 16
-}//这种方式不可以，可以通过Vue.set()来修改
-```
+		- push()
+		- pop()
+		- shift()
+		- unshift()
+		- splice()
+		- sort()
+		- reverse()
+	2. 不能触发视图更新的方法
+		- concat()
+		- slice()
+		- filter()
+		- 直接利用索引更改某一项
+		- 直接修改索引的长度
+		
+		针对已经创建的实例，Vue不能直接动态添加根级别的响应式属性，但是可以使用Vue.set(object, key, value)方法向嵌套对象添加响应式属性
 	
-引入子组件
+		```
+		Vue.set(this.list, 1, {
+		        name: 'orange',
+		        price: 16
+		      })
+		this.list[1] = {
+			name: 'orange',
+			price: 16
+		}//这种方式不可以，可以通过Vue.set()来修改
+		```
+		
+- ref (string类型)
+
+	用来给元素或子组件注册引用信息。引用信息将会注册在父组件的 $refs 对象上。如果在普通的 DOM 元素上使用，引用指向的就是 DOM 元素；如果用在子组件上，引用就指向组件实例：
+	
+	```
+	<!-- vm.$refs.p will be the DOM node -->
+	<p ref="p">hello</p>
+	<!-- vm.$refs.child will be the child comp instance -->
+	<child-comp ref="child"></child-comp>
+	```
+	当 v-for 用于元素或组件的时候，引用信息将是包含 DOM 节点或组件实例的数组。
+
+	关于 ref 注册时间的重要说明：因为 ref 本身是作为渲染结果被创建的，在初始渲染的时候你不能访问它们 - 它们还不存在！$refs 也不是响应式的，因此你不应该试图用它在模板中做数据绑定。
+
+
+- slot(string类型)
+
+	用于标记往哪个具名插槽中插入子组件内容。
+	子组件里使用<slot></slot>就可以把子组件标签里的结构引用到子组件里
+
+
+
+### 父子组件通信：
+
+- 引入子组件
 
 ```
 import componentA from './components/a'  
@@ -54,8 +78,6 @@ components: {
     componentA: componentA
   },
 ```
-父子组件通信：
-  
 - 子组件向父组件传递
 在子组件里：
   
