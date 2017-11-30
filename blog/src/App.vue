@@ -1,17 +1,15 @@
 <template>
   <div id="app">
-    <my-container></my-container>
+  	<router-view/>
   </div>
 </template>
 
 <script>
-import MyContainer from './components/container/my-container'
 export default {
-  components: {
-    'my-container': MyContainer
-  },
   data () {
+  	return {
 
+  	}
   }
 }
 </script>
