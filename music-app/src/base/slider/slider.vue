@@ -3,7 +3,9 @@
 		<div class="slider-group" ref="sliderGroup">
 			<slot></slot>
 		</div>
-		<div class="dots"></div>
+		<div class="dots">
+			<span class="dota" v-for="item in dots"></span>
+		</div>
 	</div>
 </template>
 <script>
@@ -27,13 +29,22 @@
 				default: 4000
 			}
 		},
+		data () {
+			return {
+				dots: []
+			}
+		},
 		mounted() {
-			setTimeout(() => {
+			this.$nextTick(function () {
 				this._setSliderWidth();
+				this._initDots();
 				this._initSlider();
-			}, 20)
+		  	})
 		},
 		methods: {
+			_initDots() {
+				this.dots = new Array(this.children.length);
+			},
 			_setSliderWidth() {
 				this.children = this.$refs.sliderGroup.children;
 				let width = 0;
@@ -69,6 +80,7 @@
 	@import "~common/stylus/variable.styl"
 	.slider
 		min-height 1px
+		position relative
 		.slider-group
 			position relative
 			overflow hidden
@@ -88,7 +100,15 @@
 						width 100%
 		.dots
 			position absolute
-			right 0
-			left 0
+			left 50%
+			transform translateX(-50%)
 			bottom 12px
+			z-index 999
+			span
+				width 8px
+				height 8px
+				display inline-block
+				border-radius 50%
+				background-color $color-text-l
+				margin-right 5px
 </style>
