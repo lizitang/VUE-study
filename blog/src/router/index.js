@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/my-login'
+      redirect: '/my-table'
     },
     {
       path: '/my-login',

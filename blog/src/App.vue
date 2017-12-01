@@ -1,11 +1,15 @@
 <template>
   <div id="app">
-  	<router-view/>
+    <my-container></my-container>
   </div>
 </template>
 
 <script>
+import MyContainer from './components/container/my-container'
 export default {
+  components: {
+    'my-container': MyContainer
+  },
   data () {
   	return {
 
@@ -15,5 +19,7 @@ export default {
 </script>
 
 <style>
-
+  #app {
+    height: 100%;
+  }
 </style>

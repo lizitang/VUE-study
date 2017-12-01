@@ -21,10 +21,11 @@
 </script>
 <style>
     .m-container {
-        
+        height: 100%;
     }
     .content-box {
         margin-left: 230px;
+        height: 100%;
     }
 </style>
 

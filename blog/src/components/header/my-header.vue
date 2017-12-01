@@ -21,7 +21,7 @@ export default {
     }
     .m-header {
         height: 60px;
-        padding: 0 60px 0 20px;
+        padding: 0 60px 30px 20px;
         box-sizing: border-box;
         line-height: 60px;
     }
