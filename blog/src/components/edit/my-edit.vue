@@ -68,9 +68,19 @@
             saveArticle () {
                 this.getMdValueFn();
                 this.getHtmlValueFn();
-                console.log(this.articleTitle);
-                console.log(this.msgTextShow);
-                console.log(this.msgHtmlShow);
+                this.$http.post(this.HOST + '/saveArticle',{
+                    title:this.articleTitle,
+                    textContent: this.msgTextShow,
+                    htmlContent: this.msgHtmlShow,
+                    date: '2017-11-10',
+                    label: 'node'
+                })
+                .then(function(res){
+                    alert(1);
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
             },
             publishArticle () {
                 this.getMdValueFn();
