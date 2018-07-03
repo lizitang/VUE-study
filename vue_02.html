@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for</title>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>    
+</head>
+<body>
+    <div id="ul-list">
+        <form v-on:submit.prevent="addNewFruit">
+            add fruit <input type="text" v-model="newFruit">
+            <button>add</button>
+        </form>
+        <ul>
+            <li v-for="item in lists">{{item.title}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#ul-list',
+            data: {
+                newFruit: '',
+                lists: [
+                    {
+                        id: 1,
+                        title: 'apple'
+                    },
+                    {
+                        id: 2,
+                        title: 'orange'
+                    },
+                    {
+                        id: 3,
+                        title: 'banna'
+                    }
+                ]
+            },
+            methods: {
+                addNewFruit: function () {
+                    this.lists.push({
+                        id: this.lists.length,
+                        title: this.newFruit
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

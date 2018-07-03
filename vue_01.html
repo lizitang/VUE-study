@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue插值</title>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+    <style>
+        .active {
+            color: #f00;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>{{message}}</div>
+        <div v-html="message"></div>
+        <div v-once="message"></div>
+        <button @click="change">改变取值</button>
+        <div>{{reserverMessage}}</div>
+        <div>{{reverseM()}}</div>
+        <div v-bind:class="{active:isActive}">zhangyan</div>
+
+        <ul>
+            <li v-if="ok">11</li>
+            <li v-show="ok">22</li>
+            <li>33</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                message: '<h1>哈哈</h1>',
+                isActive: false,
+                ok: false
+            },
+            computed: {
+                reserverMessage: function () {
+                    return this.message.split('').reverse().join('');
+                }
+            },
+            methods: {
+                change: function () {
+                    this.message = '123';
+                    this.isActive = true;
+                },
+                reverseM: function () {
+                    return this.message.split('').reverse().join('');                    
+                }
+            }
+        });
+    </script>
+</body>
+</html>
