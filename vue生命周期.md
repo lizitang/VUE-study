@@ -7,7 +7,6 @@
 	（2） template参数选项是否对生命周期有影响：  
 		- 如果vue实例对象中有template参数选项，则将其作为模板编译成render函数。  
 		- 如果没有template选项，则将外部HTML作为模板编译。  
-       - 可以看到template中的模板优先级要高于outer HTML的优先级。
     
 		
 
