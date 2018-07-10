@@ -49,18 +49,25 @@ export default new Vuex.Store({
 可以理解为对state里的数据进行一个计算得到新的值，这个值可能在多个组件中会经常用到，那我们就像计算属性一样，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。就像计算属性一样，getter的返回值会根据它的依赖被缓存起来，只有当它的依赖值发生改变才会重新计算。其可以通过不同的方式进行访问，具体可以看[vue文档](https://vuex.vuejs.org/zh/guide/getters.html)。
 ### Mutation
 **更改Vuex的store中的状态的唯一方法就是提交mutation**每一个mutation都有一个字符串的事件类型(type)和一个回调函数(handler)。
+**更改vuex的store中的状态就mutations中更改**
 ```
-const store = new Vuex.Store({
-  state: {
-    count: 1
-  },
-  mutations: {
-    increment (state) {
-      // 变更状态
-      state.count++
+const ADD_ITEMNUM = 'ADD_ITEMNUM'
+const COMPUTE_SCORE = 'COMPUTE_SCORE'
+export default {
+    [ADD_ITEMNUM](state) {
+        if (state.itemNum < state.itemDetail.length - 2) {
+            state.itemNum++
+        } else if (state.itemNum < state.itemDetail.length - 1){
+            state.itemNum++
+            state.isShow = false
+        }
+    },
+    [COMPUTE_SCORE](state, chooseIndex) {
+        if (state.itemDetail[state.itemNum].topic_answer[chooseIndex].is_standard_answer === 1) {
+            state.score += 20 
+        }
     }
-  }
-})
+}
 ```
 调用mutations的函数，需要调用**store.commit('increment')**
 ```
@@ -74,7 +81,7 @@ store.commit('increment', 10)
 ```
 **Mutation必须同步执行**
 ### Action
-**Action可以接受异步操作**
+**Action可以接受异步操作**它提交的是mutation，它不直接更改状态，
 
 
 
