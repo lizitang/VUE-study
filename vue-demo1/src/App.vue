@@ -20,6 +20,7 @@
     <input type="text" v-model="myValue"> {{ myValue }}
     <div>{{ computedMyValue }}</div>
     <input type="text" v-model="myVal">
+    <componentC></componentC>
   </div>
 </template>
 
@@ -27,10 +28,12 @@
 import Vue from 'vue'
 import componentA from './components/a'
 import componentB from './components/b'
+import componentC from './components/c'
 export default {
   components: {
-    componentA: componentA,
-    componentB: componentB
+    componentA,
+    componentB,
+    componentC
   },
   data () {
     return {
