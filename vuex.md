@@ -13,15 +13,24 @@
 
 这样，我们提出将**组件的共享状态**抽取出来，以**全局单例模式**进行管理。其数据响应机制如下图所示：
 ![](imgs/03.png)
-下面详细介绍一下vuex的核心概念
+
+**在这里需要知道的一个重点是：**
+
+- state:存放共享数据，组件可以共享使用这个数据。可以通过,mapState获取或者this.$store.state来获取，这里如果是多个数据需要获取，建议用mapState；
+- mutations:可以改变state里的共享数据，写成方法的形式，组件中不可以直接调用，需要actions里的方法来调用；
+- actions:调用mutations里的方法，在组件中，想要修改state的值，可以通过import mapActions。
+
+
+**下面详细介绍一下vuex的核心概念：**
 ### State
 **单一状态树**就是存放一些数据，这些数据在很多组件中可能都需要。  
 Vuex通过store选项，将该机制从根组件注入到每一个组件中，在store/index.js里需要调用Vue.use(Vuex)。  
 
-**这样在每个组件中都可以获取store的方法有两种：**
+**这样在每个组件中都可以获取store的方法有三种：**
   
 - 直接使用this.$store.state.count来获取
 - 在组件中import store from '~common/store/'，然后使用store.state.count来获取
+- import {mapState} from '~common/store/' ,组件里使用computed:mapState(['aa','bb'])
 
 #### 示例
 首先使用vuex时，新建一个store文件夹。在该文件夹里有一个index.js文件。   
@@ -50,6 +59,7 @@ export default new Vuex.Store({
 ### Mutation
 **更改Vuex的store中的状态的唯一方法就是提交mutation**每一个mutation都有一个字符串的事件类型(type)和一个回调函数(handler)。
 **更改vuex的store中的状态就mutations中更改**
+
 ```
 const ADD_ITEMNUM = 'ADD_ITEMNUM'
 const COMPUTE_SCORE = 'COMPUTE_SCORE'
@@ -81,7 +91,21 @@ store.commit('increment', 10)
 ```
 **Mutation必须同步执行**
 ### Action
-**Action可以接受异步操作**它提交的是mutation，它不直接更改状态，
+**Action可以接受异步操作**它提交的是mutation，它不直接更改状态。
+action函数内可以接受一个与store实例具有相同方法和属性的context对象，在这个action函数内可以通过调用context.commit来提交mutation，或者通过context.state和context.getters获取到state和getters的值
+
+```
+//action.js
+export default {
+    addNum({commit, state}) {
+        commit('ADD_ITEMNUM')
+    },
+    computeScore({commit, state}, chooseIndex) {
+        commit('COMPUTE_SCORE', chooseIndex)
+    }
+}
+```
+在Actions可以进行异步操作，在组件中调用actions里的方法，就可以使用**this.$store.dispatch**。
 
 
 
