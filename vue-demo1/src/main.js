@@ -23,7 +23,8 @@ new Vue({
 	router,
 	el: '#app',
 	data: {
-		word: 'hello vue'
+		word: 'hello vue',
+		Bus: new Vue()
 	},
 	components: {
 		'my-header': myHeader

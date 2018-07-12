@@ -2,24 +2,32 @@
     <div id="d-box">
         这是子组件
         <span>state:</span><span>{{number}}</span>
+       
+        <componentE></componentE>
     </div>
 </template>
 <script>
+    import componentE from './e'
     export default {
         data () {
             return {
                 number: 0,
-                timer: null
+                timer: null,
+                intervalFlag: true
             }
         },
+        components: {
+            componentE
+        },
         props: {
-            changeState: Number
+            changeState: Boolean
         },
         mounted: function () {
             this.setIntervalFn()
         },
         methods: {
             setIntervalFn: function () {
+                this.$emit('changeNum', true)
                 this.timer = setInterval(() => {
                     this.number++
                 }, 1000)
@@ -28,6 +36,11 @@
         watch: {
             number: function (cul, old) {
                 this.number = cul
+            },
+            changeState: function (cul, old) {
+                this.number = 0
+                clearInterval(this.timer)
+                this.setIntervalFn()
             }
         }
     }
